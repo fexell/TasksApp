@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 
 const STORAGE_KEY = "cookie-notice-seen"
 
@@ -30,12 +31,12 @@ export default function CookieConsent() {
       <div className="mx-auto flex max-w-3xl flex-col gap-4 border border-neutral-800 bg-neutral-950/95 p-5 shadow-2xl backdrop-blur sm:m-4 sm:flex-row sm:items-center sm:justify-between sm:rounded-xl">
         <p className="text-sm leading-relaxed text-neutral-300">
           This site uses cookies to function and to understand how it is used.{" "}
-          <a
-            href="/info/cookies"
+          <Link
+            to="/info/cookies"
             className="font-medium text-(--primary-color) underline underline-offset-2 hover:text-(--primary-color-hover)"
           >
             Read more
-          </a>
+          </Link>
           .
         </p>
 

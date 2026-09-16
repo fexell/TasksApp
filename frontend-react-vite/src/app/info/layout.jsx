@@ -4,8 +4,7 @@ import { ArrowLeft } from "lucide-react"
 import Logo from "@/components/Utils/Logo"
 
 // Shared layout for /info and its sub-pages (e.g. /info/cookies).
-// Uses router.back() rather than a fixed href so the button does the
-// right thing whether you're on /info or one level deeper.
+// Uses navigate(-1) to go back, which works whether you're on /info or one level deeper.
 export default function InfoLayout({ children }) {
   const navigate = useNavigate()
 
@@ -14,7 +13,7 @@ export default function InfoLayout({ children }) {
       <div className="mx-auto w-full max-w-3xl px-6 pt-8">
         <button
           type="button"
-          onClick={() => router.back()}
+          onClick={() => navigate(-1)}
           className="group inline-flex items-center gap-1.5 text-sm text-neutral-500 transition-colors hover:text-(--primary-color) focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--primary-color)/60 rounded-sm"
         >
           <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
@@ -23,7 +22,7 @@ export default function InfoLayout({ children }) {
       </div>
       <div className="flex flex-1 flex-col justify-center items-center w-full max-w-3xl mx-auto px-6 pb-8">
         <div className="flex flex-col items-center">
-          <Logo link="/" linkClassName="hover:opacity-80 transition-opacity" width={80} height={80} />
+          <Logo to="/" className="hover:opacity-80 transition-opacity" width={80} height={80} />
           <div>
             {children}
           </div>

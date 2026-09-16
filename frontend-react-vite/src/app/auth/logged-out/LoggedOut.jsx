@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 
 export default function LoggedOut() {
   return (
-    <div className="flex items-center justify-center px-4">
+    <div className="flex items-center justify-center px-4 min-h-screen">
       <div className="w-full max-w-sm text-center">
         <div className="flex items-center justify-center gap-2 mt-8 mb-8 font-mono text-xs tracking-widest text-neutral-500">
           <span className="inline-block w-1.5 h-1.5 bg-(--primary-color) rounded-full" />

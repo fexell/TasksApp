@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom"
 
-export default function Logo({ link, linkClassName, width, height }){
+export default function Logo({ to, className, width, height }){
   return (
-    <Link to={link} className={linkClassName}>
+    <Link to={to} className={className}>
       <svg
         width={width || 24}
         height={height || 24}

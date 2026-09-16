@@ -2,7 +2,6 @@ import { Routes, Route } from 'react-router-dom'
 import { Toaster } from 'sonner'
 
 import AuthProvider from '@/components/Auth/AuthProvider'
-import CookieConsent from '@/components/UI/CookieConsent'
 import RootLayout from '@/layouts/RootLayout'
 
 // Main pages
@@ -85,8 +84,6 @@ function App() {
           },
         }}
       />
-
-      <CookieConsent />
     </AuthProvider>
   )
 }

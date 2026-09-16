@@ -32,7 +32,7 @@ const AUTH_LINKS = [
 
 export default function AuthLandingContent() {
   return (
-    <div className="flex items-center justify-center px-4">
+    <div className="flex min-h-[calc(100vh-73px)] items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <div className="flex items-center gap-2 mb-8 font-mono text-xs tracking-widest text-neutral-500">
           <span className="inline-block w-1.5 h-1.5 bg-(--primary-color) rounded-full animate-pulse" />
@@ -52,7 +52,7 @@ export default function AuthLandingContent() {
           {AUTH_LINKS.map(({ href, label, description, icon: Icon }) => (
             <Link
               key={href}
-              href={href}
+              to={href}
               className="group flex items-center gap-3.5 bg-neutral-900 border border-neutral-800 rounded-lg px-4 py-3.5 transition-colors hover:border-(--primary-color)/60 hover:bg-neutral-900/80"
             >
               <span className="flex items-center justify-center w-9 h-9 shrink-0 rounded-md bg-neutral-800 text-neutral-400 transition-colors group-hover:bg-(--primary-color)/10 group-hover:text-(--primary-color)">

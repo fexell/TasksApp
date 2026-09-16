@@ -198,7 +198,7 @@ Dropdown.Item = function Item({
     return (
       <Link
         ref={ref}
-        href={href}
+        to={href}
         role="menuitem"
         className={sharedClassName}
         onClick={handleClick}

@@ -3,8 +3,6 @@ import { ArrowRight, UserPlus, User, Settings, LogOut  } from "lucide-react"
 import { Link } from "react-router-dom"
 import { toast } from "sonner"
 
-import LogoutButtonComponent from "../Utils/LogoutButton"
-import SettingsButtonComponent from "../Utils/SettingsButton"
 import Logo from "../Utils/Logo"
 import LoginButton from "../Utils/LoginButton"
 import Dropdown from '../UI/Dropdown'
@@ -23,32 +21,28 @@ export default function HeaderComponent() {
 
 const LoggedOutHeader = () => {
   return (
-    <>
-      <header
-        id="MainHeader"
-        className="sticky py-2 top-0 z-40 border-b border-neutral-800/60 bg-neutral-950 backdrop-blur-md"
-      >
-        <div className="mx-auto flex items-center justify-between px-6 py-2">
-          {/* Brand mark — same eyebrow language as the login screen */}
-          <div>
-            <Link to="/"
-              className="flex items-center gap-2 font-mono text-xs tracking-widest text-neutral-500 transition-colors hover:text-neutral-300"
-            >
-              <Logo linkClassName="flex items-center gap-2" width={40} height={40} />
-            </Link>
-          </div>
-          <div className="flex items-center gap-6">
-            <LoginButton />
-            <Link to="/auth/signup"
-              className="flex items-center p-2 px-4 gap-2 rounded-full font-mono text-xs tracking-widest text-neutral-950 transition-colors bg-(--primary-color) hover:bg-(--primary-color-hover)"
-            >
-              <UserPlus className="w-4 h-4" />
-              SIGN UP
-            </Link>
-          </div>
+    <header
+      id="MainHeader"
+      className="sticky py-2 top-0 z-40 border-b border-neutral-800/60 bg-neutral-950 backdrop-blur-md"
+    >
+      <div className="mx-auto flex items-center justify-between px-6 py-2">
+        {/* Brand mark — same eyebrow language as the login screen */}
+        <Logo to="/"
+          className="flex items-center gap-2 font-mono text-xs tracking-widest text-neutral-500 transition-colors hover:text-neutral-300"
+          width={40}
+          height={40}
+        />
+        <div className="flex items-center gap-6">
+          <LoginButton />
+          <Link to="/auth/signup"
+            className="flex items-center p-2 px-4 gap-2 rounded-full font-mono text-xs tracking-widest text-neutral-950 transition-colors bg-(--primary-color) hover:bg-(--primary-color-hover)"
+          >
+            <UserPlus className="w-4 h-4" />
+            SIGN UP
+          </Link>
         </div>
-      </header> 
-    </>
+      </div>
+    </header>
   )
 }
 
@@ -64,36 +58,34 @@ const LoggedInHeader = () => {
   }
 
   return (
-    <>
-      <header
-        id="MainHeader"
-        className="flex flex-col sticky w-full py-2 top-0 z-40 border-b border-neutral-800/60 bg-neutral-950 backdrop-blur-md"
-      >
-        <div className="top-header w-full mx-auto flex items-center justify-between px-6 py-2">
-          {/* Brand mark — same eyebrow language as the login screen */}
-          <Link to="/"
-            className="flex items-center gap-2 font-mono text-xs tracking-widest text-neutral-500 transition-colors hover:text-neutral-300"
-          >
-            <Logo linkClassName="flex items-center gap-2" width={40} height={40} />
-          </Link>
+    <header
+      id="MainHeader"
+      className="flex flex-col sticky w-full py-2 top-0 z-40 border-b border-neutral-800/60 bg-neutral-950 backdrop-blur-md"
+    >
+      <div className="top-header w-full mx-auto flex items-center justify-between px-6 py-2">
+        {/* Brand mark — same eyebrow language as the login screen */}
+        <Logo to="/"
+          className="flex items-center gap-2 font-mono text-xs tracking-widest text-neutral-500 transition-colors hover:text-neutral-300"
+          width={40}
+          height={40}
+        />
 
-          {/* Right-hand actions */}
-          <Dropdown align="right">
-            <Dropdown.Trigger className="p-1 rounded-full hover:opacity-80">
-              <User className="w-5 h-5 text-white" />
-            </Dropdown.Trigger>
+        {/* Right-hand actions */}
+        <Dropdown align="right">
+          <Dropdown.Trigger className="p-1 rounded-full hover:opacity-80">
+            <User className="w-5 h-5 text-white" />
+          </Dropdown.Trigger>
 
-            <Dropdown.Menu>
-              <Dropdown.Item href="/settings" icon={<Settings />}>Settings</Dropdown.Item>
-              <Dropdown.Divider />
-              <Dropdown.Item onClick={handleLogout} icon={<LogOut />} danger>Logout</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-        <div className="bottom-header">
+          <Dropdown.Menu>
+            <Dropdown.Item href="/settings" icon={<Settings />}>Settings</Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item onClick={handleLogout} icon={<LogOut />} danger>Logout</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </div>
+      <div className="bottom-header">
 
-        </div>
-      </header>
-    </>
+      </div>
+    </header>
   )
 }

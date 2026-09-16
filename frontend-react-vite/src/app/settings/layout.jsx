@@ -4,7 +4,7 @@ import { User, ShieldCheck, Monitor, ArrowLeft, TriangleAlert } from "lucide-rea
 
 import LogoutButton from "@/components/Utils/LogoutButton"
 
-import { getBackHref } from '@/hooks/useBackHref'
+import useBackHref from '@/hooks/useBackHref'
 import useAuthStore from "@/store/useAuthStore"
 
 const navItems = [
@@ -19,10 +19,12 @@ export default function SettingsLayout({ children }) {
   const navigate = useNavigate()
   const [backHref, setBackHref] = useState("/")
   const { isAuthenticated, isInitialized, isLoggingOut } = useAuthStore()
+  
+  const getBackHref = useBackHref()
 
   useEffect(() => {
     setBackHref(getBackHref(pathname))
-  }, [pathname])
+  }, [pathname, getBackHref])
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated && !isLoggingOut) {

@@ -14,9 +14,7 @@ export default function TaskItem({ task: initialTask }) {
   const handleToggle = async () => {
     setIsToggling(true)
     try {
-      console.log("Before toggle:", { id: task.id, isCompleted: task.isCompleted })
       await toggleTask(task.id, task.isCompleted)
-      console.log("After toggle:", { id: task.id, isCompleted: task.isCompleted })
       toast.success(task.isCompleted ? "Task marked as pending" : "Task completed!")
     } catch (err) {
       console.error("Toggle error:", err)

@@ -50,7 +50,7 @@ export default function SignupForm() {
     </>
   )
   : (
-    <div className="flex items-center justify-center px-4">
+    <div className="flex items-center justify-center px-4 min-h-[calc(100vh-73px)]">
       <div className="w-full max-w-sm">
         <div className="flex items-center gap-2 mb-8 font-mono text-xs tracking-widest text-neutral-500">
           <span className="inline-block w-1.5 h-1.5 bg-(--primary-color) rounded-full animate-pulse" />

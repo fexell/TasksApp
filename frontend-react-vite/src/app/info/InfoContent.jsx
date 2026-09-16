@@ -52,7 +52,7 @@ export default function InfoContent() {
           {INFO_LINKS.map(({ href, label, description, icon: Icon }) => (
             <Link
               key={href}
-              href={href}
+              to={href}
               className="group flex items-center gap-3.5 bg-neutral-900 border border-neutral-800 rounded-lg px-4 py-3.5 transition-colors hover:border-(--primary-color)/60 hover:bg-neutral-900/80"
             >
               <span className="flex items-center justify-center w-9 h-9 shrink-0 rounded-md bg-neutral-800 text-neutral-400 transition-colors group-hover:bg-(--primary-color)/10 group-hover:text-(--primary-color)">

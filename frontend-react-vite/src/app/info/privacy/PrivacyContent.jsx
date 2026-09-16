@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 // Bump this whenever the policy actually changes.
 const LAST_UPDATED = "2026-07-17"
 
@@ -39,12 +41,12 @@ export default function PrivacyContent() {
         <p className="mt-4 max-w-xl text-base leading-relaxed text-neutral-400">
           A plain-language account of what we collect, why, and what you
           can do about it. See also our{" "}
-          <a
-            href="/info/cookies"
+          <Link
+            to="/info/cookies"
             className="text-(--primary-color) underline underline-offset-2 hover:no-underline"
           >
             Cookies
-          </a>{" "}
+          </Link>{" "}
           page for cookie-specific details.
         </p>
       </div>
