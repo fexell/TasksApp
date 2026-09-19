@@ -191,6 +191,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.UseRouting();
 
 // CORS must run before anything that can short-circuit the pipeline
