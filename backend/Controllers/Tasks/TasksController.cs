@@ -280,5 +280,39 @@ namespace TasksApp.Controllers
       }
     }
 
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteTask(int id)
+    {
+      var userId = GetUserId();
+      var task = await _context.Tasks
+        .FirstOrDefaultAsync(t => t.Id == id && t.AppUserId == userId);
+
+      if(task == null)
+        return NotFound(new { error = "Task not found" });
+
+      try
+      {
+        // Delete file from disk if exists
+        if(!string.IsNullOrEmpty(task.FileUrl))
+        {
+          var fileName = Path.GetFileName(task.FileUrl);
+          var filePath = Path.Combine(_env.WebRootPath, "uploads", fileName);
+          
+          if(System.IO.File.Exists(filePath))
+            System.IO.File.Delete(filePath);
+        }
+
+        // Delete task from database
+        _context.Tasks.Remove(task);
+        await _context.SaveChangesAsync();
+
+        return Ok(new { message = "Task deleted successfully" });
+      }
+      catch(Exception ex)
+      {
+        return StatusCode(500, new { error = "Task deletion failed", details = ex.Message });
+      }
+    }
   }
 }
