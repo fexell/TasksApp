@@ -155,7 +155,93 @@ namespace TasksApp.Controllers
       });
     }
 
-    [HttpPost("{id}/upload")]
+        [HttpPost("{id}/upload")]
+    public async Task<IActionResult> UploadFile(int id, IFormFile file)
+    {
+      if(file == null || file.Length == 0)
+        return BadRequest(new { error = "No file uploaded" });
+
+      // Allowed MIME types (must match frontend validation)
+      var allowedTypes = new[]
+      {
+        "application/pdf",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
+        "application/msword", // .doc
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
+        "application/vnd.ms-excel", // .xls
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation", // .pptx
+        "application/vnd.ms-powerpoint", // .ppt
+        "text/plain", // .txt
+        "text/markdown", // .md
+        "application/vnd.oasis.opendocument.text", // .odt
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+        "image/webp",
+        "image/svg+xml",
+        "image/bmp",
+        "application/zip",
+        "application/x-rar-compressed",
+        "application/x-7z-compressed",
+        "application/gzip",
+        "audio/mpeg", // .mp3
+        "video/mp4",
+        "video/webm",
+        "audio/wav",
+        "audio/mp4", // .m4a
+      };
+
+      // Validate file type
+      if(!allowedTypes.Contains(file.ContentType))
+      {
+        return BadRequest(new { error = $"File type not allowed: {file.ContentType}" });
+      }
+
+      // Validate file size (10 MB = 10 * 1024 * 1024 bytes)
+      const long maxFileSize = 10 * 1024 * 1024;
+      if(file.Length > maxFileSize)
+      {
+        var sizeMB = (file.Length / (1024.0 * 1024.0)).ToString("F2");
+        return BadRequest(new { error = $"File size exceeds 10 MB limit ({sizeMB} MB)" });
+      }
+
+      var userId = GetUserId();
+      var task = await _context.Tasks
+        .FirstOrDefaultAsync(t => t.Id == id && t.AppUserId == userId);
+
+      if(task == null)
+        return NotFound(new { error = "Task not found" });
+
+      try
+      {
+        var uploadDir = Path.Combine(_env.WebRootPath, "uploads");
+        if(!Directory.Exists(uploadDir))
+          Directory.CreateDirectory(uploadDir);
+
+        var fileName = $"{Guid.NewGuid()}_{file.FileName}";
+        var filePath = Path.Combine(uploadDir, fileName);
+
+        using(var stream = new FileStream(filePath, FileMode.Create))
+        {
+          await file.CopyToAsync(stream);
+        }
+
+        task.FileUrl = $"/uploads/{fileName}";
+        task.FileName = file.FileName;
+        task.UpdatedAt = DateTime.UtcNow;
+
+        _context.Tasks.Update(task);
+        await _context.SaveChangesAsync();
+
+        return Ok(new { fileUrl = task.FileUrl, fileName = task.FileName });
+      }
+      catch(Exception ex)
+      {
+        return StatusCode(500, new { error = "File upload failed", details = ex.Message });
+      }
+    }
+
+/upload")]
     public async Task<IActionResult> UploadFile(int id, IFormFile file)
     {
       if(file == null || file.Length == 0)
