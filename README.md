@@ -74,7 +74,7 @@ npm run dev
 ### Testa Applikationen
 
 1. Öppna `http://localhost:3000`
-2. Logga in eller registrera konto
+2. Logga in med demokontot: `demo@example.com` / `DemoPassword123!`
 3. Skapa en ny uppgift
 4. Klicka "Add File" för att ladda upp en fil
 5. Filen visas som en nedladdningslänk i uppgiften
