@@ -1,11 +1,10 @@
 import ProfileForm from '@/app/settings/ProfileForm'
-import { Outlet } from 'react-router-dom'
+import SettingsLayout from '@/layouts/SettingsLayout'
 
 export default function SettingsPage() {
   return (
-    <>
+    <SettingsLayout>
       <ProfileForm />
-      <Outlet />
-    </>
+    </SettingsLayout>
   )
 }

@@ -1,6 +1,5 @@
 import { useState } from "react"
-import { User, Mail, Globe, Link as LinkIcon, CircleCheck, CircleAlert, Save } from "lucide-react"
-import { Link } from "react-router-dom"
+import { User, Mail, Globe, Link as LinkIcon, CircleCheck, CircleAlert } from "lucide-react"
 
 import TextField from "@/components/UI/TextField"
 import TextAreaField from "@/components/UI/TextAreaField"
@@ -20,26 +19,30 @@ export default function ProfileForm() {
   const user = useAuthStore((state) => state.user)
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-semibold text-neutral-100">Profile</h1>
-        <p className="mt-1.5 text-sm text-neutral-500">
-          Update your name and the email address linked to your account.
+        <h2 className="text-xl font-semibold text-neutral-100">Información de Perfil</h2>
+        <p className="mt-1 text-sm text-neutral-400">
+          Actualiza tu nombre y otros detalles de tu perfil.
         </p>
       </div>
 
-      <NameSection user={user} />
-      <BioSection user={user} />
-      <WebsiteSection user={user} />
-      <SocialLinksSection user={user} />
-      <EmailSection user={user} />
+      <div className="space-y-8 pt-4">
+        <NameSection user={user} />
+        <div className="border-t border-neutral-800" />
+        <BioSection user={user} />
+        <div className="border-t border-neutral-800" />
+        <WebsiteSection user={user} />
+        <div className="border-t border-neutral-800" />
+        <SocialLinksSection user={user} />
+        <div className="border-t border-neutral-800" />
+        <EmailSection user={user} />
+      </div>
     </div>
   )
 }
 
-// ------------------------------------------------------
-// NAME
-// ------------------------------------------------------
+// ==================== NAME ====================
 
 const NameSection = () => {
   const user = useAuthStore((state) => state.user)
@@ -83,39 +86,41 @@ const NameSection = () => {
 
   return (
     <section>
-      <h2 className="font-mono text-[11px] uppercase tracking-wider text-neutral-500 mb-3">
-        Name
-      </h2>
+      <h3 className="text-sm font-semibold text-neutral-200 mb-4 flex items-center gap-2">
+        <User className="w-4 h-4 text-neutral-400" />
+        Nombre
+      </h3>
 
-      <form onSubmit={handleSubmit} className="space-y-5 max-w-md">
-        <div className="grid grid-cols-2 gap-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <TextField
             id="firstName"
-            label="First name"
-            icon={User}
+            label="Nombre"
             value={formData.firstName}
             onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-            placeholder="First name"
+            placeholder="Nombre"
             autoComplete="given-name"
           />
 
           <TextField
             id="lastName"
-            label="Last name"
+            label="Apellido"
             value={formData.lastName}
             onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-            placeholder="Last name"
+            placeholder="Apellido"
             autoComplete="family-name"
           />
         </div>
 
-        <div className="flex items-center gap-3 pt-1">
-          <SaveButton isSubmitting={isSubmitting} disabled={isSubmitDisabled}>Save changes</SaveButton>
+        <div className="flex items-center gap-3 pt-2">
+          <SaveButton isSubmitting={isSubmitting} disabled={isSubmitDisabled}>
+            Guardar cambios
+          </SaveButton>
 
           {saved && (
-            <span className="flex items-center gap-1.5 text-sm text-neutral-500">
-              <CircleCheck className="w-4 h-4 text-(--primary-color)" />
-              Saved
+            <span className="flex items-center gap-1.5 text-sm text-emerald-400">
+              <CircleCheck className="w-4 h-4" />
+              Guardado
             </span>
           )}
         </div>
@@ -124,9 +129,7 @@ const NameSection = () => {
   )
 }
 
-// ------------------------------------------------------
-// BIO
-// ------------------------------------------------------
+// ==================== BIO ====================
 
 const BioSection = () => {
   const user = useAuthStore((state) => state.user)
@@ -168,44 +171,47 @@ const BioSection = () => {
 
   return (
     <section>
-      <h2 className="font-mono text-[11px] uppercase tracking-wider text-neutral-500 mb-3">
-        Bio
-      </h2>
+      <h3 className="text-sm font-semibold text-neutral-200 mb-4 flex items-center gap-2">
+        <User className="w-4 h-4 text-neutral-400" />
+        Biografía
+      </h3>
 
       {error && (
-        <div className="flex items-start gap-3 bg-red-400/10 border border-red-400/20 rounded-lg px-4 py-3.5 mb-5 max-w-md">
+        <div className="flex items-start gap-3 bg-red-500/10 border border-red-500/30 rounded-lg px-4 py-3 mb-4">
           <CircleAlert className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
           <p className="text-sm text-red-300">{error}</p>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-2 max-w-md">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <TextAreaField
           id="bio"
           rows={3}
-          label="About you"
+          label="Cuéntanos sobre ti"
           maxLength={BIO_MAX_LENGTH}
           value={bio}
           onChange={handleChange}
-          placeholder="Tell people a little about yourself"
-          title={`Your bio (${bio.length} / ${BIO_MAX_LENGTH})`}
+          placeholder="Escribe algo sobre ti..."
+          title={`Tu biografía (${bio.length} / ${BIO_MAX_LENGTH})`}
         />
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between pt-2">
           <div className="flex items-center gap-3">
-            <SaveButton isSubmitting={isSubmitting} disabled={isSubmitDisabled}>Save changes</SaveButton>
+            <SaveButton isSubmitting={isSubmitting} disabled={isSubmitDisabled}>
+              Guardar cambios
+            </SaveButton>
 
             {saved && (
-              <span className="flex items-center gap-1.5 text-sm text-neutral-500">
-                <CircleCheck className="w-4 h-4 text-(--primary-color)" />
-                Saved
+              <span className="flex items-center gap-1.5 text-sm text-emerald-400">
+                <CircleCheck className="w-4 h-4" />
+                Guardado
               </span>
             )}
           </div>
 
           <span
             className={`text-xs font-mono ${
-              remaining < 0 ? "text-red-400" : "text-neutral-600"
+              remaining < 0 ? "text-red-400" : "text-neutral-500"
             }`}
           >
             {remaining}
@@ -216,9 +222,7 @@ const BioSection = () => {
   )
 }
 
-// ------------------------------------------------------
-// WEBSITE URL
-// ------------------------------------------------------
+// ==================== WEBSITE URL ====================
 
 const WebsiteSection = () => {
   const user = useAuthStore((state) => state.user)
@@ -261,35 +265,38 @@ const WebsiteSection = () => {
 
   return (
     <section>
-      <h2 className="font-mono text-[11px] uppercase tracking-wider text-neutral-500 mb-3">
-        URL
-      </h2>
+      <h3 className="text-sm font-semibold text-neutral-200 mb-4 flex items-center gap-2">
+        <Globe className="w-4 h-4 text-neutral-400" />
+        Sitio Web
+      </h3>
 
       {error && (
-        <div className="flex items-start gap-3 bg-red-400/10 border border-red-400/20 rounded-lg px-4 py-3.5 mb-5 max-w-md">
+        <div className="flex items-start gap-3 bg-red-500/10 border border-red-500/30 rounded-lg px-4 py-3 mb-4">
           <CircleAlert className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
           <p className="text-sm text-red-300">{error}</p>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-5 max-w-md">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <TextField
           id="websiteUrl"
-          icon={Globe}
+          label="URL"
           type="url"
           value={url}
           onChange={handleChange}
-          placeholder="https://your-site.com"
+          placeholder="https://tu-sitio.com"
           autoComplete="url"
         />
 
-        <div className="flex items-center gap-3">
-          <SaveButton isSubmitting={isSubmitting} disabled={isSubmitDisabled}>Save changes</SaveButton>
+        <div className="flex items-center gap-3 pt-2">
+          <SaveButton isSubmitting={isSubmitting} disabled={isSubmitDisabled}>
+            Guardar cambios
+          </SaveButton>
 
           {saved && (
-            <span className="flex items-center gap-1.5 text-sm text-neutral-500">
-              <CircleCheck className="w-4 h-4 text-(--primary-color)" />
-              Saved
+            <span className="flex items-center gap-1.5 text-sm text-emerald-400">
+              <CircleCheck className="w-4 h-4" />
+              Guardado
             </span>
           )}
         </div>
@@ -298,9 +305,7 @@ const WebsiteSection = () => {
   )
 }
 
-// ------------------------------------------------------
-// SOCIAL LINKS
-// ------------------------------------------------------
+// ==================== SOCIAL LINKS ====================
 
 const SocialLinksSection = () => {
   const user = useAuthStore((state) => state.user)
@@ -329,7 +334,6 @@ const SocialLinksSection = () => {
     setIsSubmitting(true)
 
     try {
-      // Drop empty slots before sending - the backend re-assigns SortOrder from list order
       const urls = links.map((url) => url.trim()).filter(Boolean)
 
       const response = await api("/account/social-links", {
@@ -349,39 +353,41 @@ const SocialLinksSection = () => {
 
   return (
     <section>
-      <h2 className="font-mono text-[11px] uppercase tracking-wider text-neutral-500 mb-3">
-        Social accounts
-      </h2>
+      <h3 className="text-sm font-semibold text-neutral-200 mb-4 flex items-center gap-2">
+        <LinkIcon className="w-4 h-4 text-neutral-400" />
+        Redes Sociales
+      </h3>
 
       {error && (
-        <div className="flex items-start gap-3 bg-red-400/10 border border-red-400/20 rounded-lg px-4 py-3.5 mb-5 max-w-md">
+        <div className="flex items-start gap-3 bg-red-500/10 border border-red-500/30 rounded-lg px-4 py-3 mb-4">
           <CircleAlert className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
           <p className="text-sm text-red-300">{error}</p>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
           {links.map((url, i) => (
             <TextField
               key={i}
               id={`socialLink-${i}`}
-              icon={LinkIcon}
               type="url"
               value={url}
               onChange={(e) => updateLink(i, e.target.value)}
-              placeholder={`Link to social profile ${i + 1}`}
+              placeholder={`Enlace a red social ${i + 1}`}
             />
           ))}
         </div>
 
-        <div className="flex items-center gap-3">
-          <SaveButton isSubmitting={isSubmitting} disabled={isSubmitDisabled}>Save changes</SaveButton>
+        <div className="flex items-center gap-3 pt-2">
+          <SaveButton isSubmitting={isSubmitting} disabled={isSubmitDisabled}>
+            Guardar cambios
+          </SaveButton>
 
           {saved && (
-            <span className="flex items-center gap-1.5 text-sm text-neutral-500">
-              <CircleCheck className="w-4 h-4 text-(--primary-color)" />
-              Saved
+            <span className="flex items-center gap-1.5 text-sm text-emerald-400">
+              <CircleCheck className="w-4 h-4" />
+              Guardado
             </span>
           )}
         </div>
@@ -390,9 +396,7 @@ const SocialLinksSection = () => {
   )
 }
 
-// ------------------------------------------------------
-// EMAIL
-// ------------------------------------------------------
+// ==================== EMAIL ====================
 
 const EmailSection = () => {
   const user = useAuthStore((state) => state.user)
@@ -419,34 +423,35 @@ const EmailSection = () => {
 
   return (
     <section>
-      <h2 className="font-mono text-[11px] uppercase tracking-wider text-neutral-500 mb-3">
-        Email address
-      </h2>
+      <h3 className="text-sm font-semibold text-neutral-200 mb-4 flex items-center gap-2">
+        <Mail className="w-4 h-4 text-neutral-400" />
+        Correo Electrónico
+      </h3>
 
       <p className="text-sm text-neutral-400 mb-4">
-        Current: <span className="text-neutral-200">{user?.email}</span>
+        Actual: <span className="text-neutral-200 font-mono">{user?.email}</span>
       </p>
 
-      <form onSubmit={handleOpenModal} className="space-y-5 max-w-md">
+      <form onSubmit={handleOpenModal} className="space-y-4">
         <TextField
           id="newEmail"
-          label="New email"
-          icon={Mail}
+          label="Nuevo correo"
+          type="email"
           value={newEmail}
           onChange={(e) => setNewEmail(e.target.value)}
-          placeholder="you@example.com"
+          placeholder="tu@ejemplo.com"
           autoComplete="email"
         />
-        <SaveButton disabled={isSubmitDisabled}>Change email address</SaveButton>
+        <SaveButton disabled={isSubmitDisabled}>Cambiar correo electrónico</SaveButton>
       </form>
 
       <ConfirmPasswordModal
         open={modalOpen}
-        title="Confirm email change"
-        description={`Enter your password to confirm changing your email to ${newEmail}.`}
-        confirmLabel="Change email"
-        confirmingLabel="Changing..."
-        successMessage="Check the new address's inbox for a confirmation link. Your current email stays active until you confirm."
+        title="Confirmar cambio de correo"
+        description={`Ingresa tu contraseña para confirmar el cambio a ${newEmail}.`}
+        confirmLabel="Cambiar correo"
+        confirmingLabel="Cambiando..."
+        successMessage="Revisa la bandeja de entrada del nuevo correo para un enlace de confirmación. Tu correo actual permanecerá activo hasta que confirmes."
         onConfirm={handleConfirm}
         onClose={() => setModalOpen(false)}
       />

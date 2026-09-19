@@ -1,5 +1,10 @@
 import DangerForm from '@/app/settings/danger/DangerForm'
+import SettingsLayout from '@/layouts/SettingsLayout'
 
 export default function DangerZonePage() {
-  return <DangerForm />
+  return (
+    <SettingsLayout>
+      <DangerForm />
+    </SettingsLayout>
+  )
 }
