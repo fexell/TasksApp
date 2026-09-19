@@ -2,10 +2,10 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { User, Shield, LogOut, Trash2, Home } from 'lucide-react'
 
 const SETTINGS_SECTIONS = [
-  { id: 'profile', label: 'Profil', path: '/settings', icon: User },
-  { id: 'security', label: 'Seguridad', path: '/settings/security', icon: Shield },
-  { id: 'sessions', label: 'Sesiones', path: '/settings/sessions', icon: LogOut },
-  { id: 'danger', label: 'Zona de Peligro', path: '/settings/danger', icon: Trash2 },
+  { id: 'profile', label: 'Profile', path: '/settings', icon: User },
+  { id: 'security', label: 'Security', path: '/settings/security', icon: Shield },
+  { id: 'sessions', label: 'Sessions', path: '/settings/sessions', icon: LogOut },
+  { id: 'danger', label: 'Danger Zone', path: '/settings/danger', icon: Trash2 },
 ]
 
 export default function SettingsLayout({ children }) {
@@ -29,11 +29,11 @@ export default function SettingsLayout({ children }) {
             <button
               onClick={() => navigate('/')}
               className="p-2 hover:bg-neutral-800 rounded-lg transition-colors"
-              title="Volver al inicio"
+              title="Back to home"
             >
               <Home className="w-5 h-5 text-neutral-400" />
             </button>
-            <h1 className="text-2xl font-bold text-neutral-100">Configuración</h1>
+            <h1 className="text-2xl font-bold text-neutral-100">Settings</h1>
           </div>
         </div>
       </header>

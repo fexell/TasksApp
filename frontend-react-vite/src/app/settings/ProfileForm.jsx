@@ -21,9 +21,9 @@ export default function ProfileForm() {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-xl font-semibold text-neutral-100">Información de Perfil</h2>
+        <h2 className="text-xl font-semibold text-neutral-100">Profile Information</h2>
         <p className="mt-1 text-sm text-neutral-400">
-          Actualiza tu nombre y otros detalles de tu perfil.
+          Update your name and other profile details.
         </p>
       </div>
 
@@ -88,39 +88,39 @@ const NameSection = () => {
     <section>
       <h3 className="text-sm font-semibold text-neutral-200 mb-4 flex items-center gap-2">
         <User className="w-4 h-4 text-neutral-400" />
-        Nombre
+        Name
       </h3>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <TextField
             id="firstName"
-            label="Nombre"
+            label="First Name"
             value={formData.firstName}
             onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-            placeholder="Nombre"
+            placeholder="First name"
             autoComplete="given-name"
           />
 
           <TextField
             id="lastName"
-            label="Apellido"
+            label="Last Name"
             value={formData.lastName}
             onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-            placeholder="Apellido"
+            placeholder="Last name"
             autoComplete="family-name"
           />
         </div>
 
         <div className="flex items-center gap-3 pt-2">
           <SaveButton isSubmitting={isSubmitting} disabled={isSubmitDisabled}>
-            Guardar cambios
+            Save Changes
           </SaveButton>
 
           {saved && (
             <span className="flex items-center gap-1.5 text-sm text-emerald-400">
               <CircleCheck className="w-4 h-4" />
-              Guardado
+              Saved
             </span>
           )}
         </div>
@@ -173,7 +173,7 @@ const BioSection = () => {
     <section>
       <h3 className="text-sm font-semibold text-neutral-200 mb-4 flex items-center gap-2">
         <User className="w-4 h-4 text-neutral-400" />
-        Biografía
+        Bio
       </h3>
 
       {error && (
@@ -187,24 +187,24 @@ const BioSection = () => {
         <TextAreaField
           id="bio"
           rows={3}
-          label="Cuéntanos sobre ti"
+          label="About You"
           maxLength={BIO_MAX_LENGTH}
           value={bio}
           onChange={handleChange}
-          placeholder="Escribe algo sobre ti..."
-          title={`Tu biografía (${bio.length} / ${BIO_MAX_LENGTH})`}
+          placeholder="Tell us about yourself..."
+          title={`Your bio (${bio.length} / ${BIO_MAX_LENGTH})`}
         />
 
         <div className="flex items-center justify-between pt-2">
           <div className="flex items-center gap-3">
             <SaveButton isSubmitting={isSubmitting} disabled={isSubmitDisabled}>
-              Guardar cambios
+              Save Changes
             </SaveButton>
 
             {saved && (
               <span className="flex items-center gap-1.5 text-sm text-emerald-400">
                 <CircleCheck className="w-4 h-4" />
-                Guardado
+                Saved
               </span>
             )}
           </div>
@@ -267,7 +267,7 @@ const WebsiteSection = () => {
     <section>
       <h3 className="text-sm font-semibold text-neutral-200 mb-4 flex items-center gap-2">
         <Globe className="w-4 h-4 text-neutral-400" />
-        Sitio Web
+        Website
       </h3>
 
       {error && (
@@ -284,19 +284,19 @@ const WebsiteSection = () => {
           type="url"
           value={url}
           onChange={handleChange}
-          placeholder="https://tu-sitio.com"
+          placeholder="https://your-site.com"
           autoComplete="url"
         />
 
         <div className="flex items-center gap-3 pt-2">
           <SaveButton isSubmitting={isSubmitting} disabled={isSubmitDisabled}>
-            Guardar cambios
+            Save Changes
           </SaveButton>
 
           {saved && (
             <span className="flex items-center gap-1.5 text-sm text-emerald-400">
               <CircleCheck className="w-4 h-4" />
-              Guardado
+              Saved
             </span>
           )}
         </div>
@@ -355,7 +355,7 @@ const SocialLinksSection = () => {
     <section>
       <h3 className="text-sm font-semibold text-neutral-200 mb-4 flex items-center gap-2">
         <LinkIcon className="w-4 h-4 text-neutral-400" />
-        Redes Sociales
+        Social Media
       </h3>
 
       {error && (
@@ -374,20 +374,20 @@ const SocialLinksSection = () => {
               type="url"
               value={url}
               onChange={(e) => updateLink(i, e.target.value)}
-              placeholder={`Enlace a red social ${i + 1}`}
+              placeholder={`Social profile link ${i + 1}`}
             />
           ))}
         </div>
 
         <div className="flex items-center gap-3 pt-2">
           <SaveButton isSubmitting={isSubmitting} disabled={isSubmitDisabled}>
-            Guardar cambios
+            Save Changes
           </SaveButton>
 
           {saved && (
             <span className="flex items-center gap-1.5 text-sm text-emerald-400">
               <CircleCheck className="w-4 h-4" />
-              Guardado
+              Saved
             </span>
           )}
         </div>
@@ -425,33 +425,33 @@ const EmailSection = () => {
     <section>
       <h3 className="text-sm font-semibold text-neutral-200 mb-4 flex items-center gap-2">
         <Mail className="w-4 h-4 text-neutral-400" />
-        Correo Electrónico
+        Email Address
       </h3>
 
       <p className="text-sm text-neutral-400 mb-4">
-        Actual: <span className="text-neutral-200 font-mono">{user?.email}</span>
+        Current: <span className="text-neutral-200 font-mono">{user?.email}</span>
       </p>
 
       <form onSubmit={handleOpenModal} className="space-y-4">
         <TextField
           id="newEmail"
-          label="Nuevo correo"
+          label="New Email"
           type="email"
           value={newEmail}
           onChange={(e) => setNewEmail(e.target.value)}
-          placeholder="tu@ejemplo.com"
+          placeholder="you@example.com"
           autoComplete="email"
         />
-        <SaveButton disabled={isSubmitDisabled}>Cambiar correo electrónico</SaveButton>
+        <SaveButton disabled={isSubmitDisabled}>Change Email Address</SaveButton>
       </form>
 
       <ConfirmPasswordModal
         open={modalOpen}
-        title="Confirmar cambio de correo"
-        description={`Ingresa tu contraseña para confirmar el cambio a ${newEmail}.`}
-        confirmLabel="Cambiar correo"
-        confirmingLabel="Cambiando..."
-        successMessage="Revisa la bandeja de entrada del nuevo correo para un enlace de confirmación. Tu correo actual permanecerá activo hasta que confirmes."
+        title="Confirm Email Change"
+        description={`Enter your password to confirm changing your email to ${newEmail}.`}
+        confirmLabel="Change Email"
+        confirmingLabel="Changing..."
+        successMessage="Check your new email's inbox for a confirmation link. Your current email remains active until you confirm."
         onConfirm={handleConfirm}
         onClose={() => setModalOpen(false)}
       />
