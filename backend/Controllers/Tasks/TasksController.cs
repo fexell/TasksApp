@@ -214,7 +214,10 @@ namespace TasksApp.Controllers
 
       try
       {
-        var uploadDir = Path.Combine(_env.WebRootPath, "uploads");
+        // Get upload directory - use wwwroot or fallback to current directory
+        string webRootPath = _env.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+        var uploadDir = Path.Combine(webRootPath, "uploads");
+        
         if(!Directory.Exists(uploadDir))
           Directory.CreateDirectory(uploadDir);
 
@@ -246,6 +249,50 @@ namespace TasksApp.Controllers
     {
       if(file == null || file.Length == 0)
         return BadRequest(new { error = "No file uploaded" });
+
+      // Allowed MIME types (must match frontend validation)
+      var allowedTypes = new[]
+      {
+        "application/pdf",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
+        "application/msword", // .doc
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
+        "application/vnd.ms-excel", // .xls
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation", // .pptx
+        "application/vnd.ms-powerpoint", // .ppt
+        "text/plain", // .txt
+        "text/markdown", // .md
+        "application/vnd.oasis.opendocument.text", // .odt
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+        "image/webp",
+        "image/svg+xml",
+        "image/bmp",
+        "application/zip",
+        "application/x-rar-compressed",
+        "application/x-7z-compressed",
+        "application/gzip",
+        "audio/mpeg", // .mp3
+        "video/mp4",
+        "video/webm",
+        "audio/wav",
+        "audio/mp4", // .m4a
+      };
+
+      // Validate file type
+      if(!allowedTypes.Contains(file.ContentType))
+      {
+        return BadRequest(new { error = $"File type not allowed: {file.ContentType}" });
+      }
+
+      // Validate file size (10 MB = 10 * 1024 * 1024 bytes)
+      const long maxFileSize = 10 * 1024 * 1024; // 10 MB
+      if(file.Length > maxFileSize)
+      {
+        var sizeMB = (file.Length / (1024.0 * 1024.0)).ToString("F2");
+        return BadRequest(new { error = $"File size exceeds 10 MB limit ({sizeMB} MB)" });
+      }
 
       var userId = GetUserId();
       var task = await _context.Tasks
