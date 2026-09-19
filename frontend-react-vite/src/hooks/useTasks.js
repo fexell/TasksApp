@@ -110,6 +110,75 @@ export const useTasks = () => {
     })
   }, [tasks, updateTask])
 
+  // Upload file to task
+  const uploadFile = useCallback(async (taskId, file) => {
+    // Allowed file types
+    const ALLOWED_TYPES = [
+      "application/pdf",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
+      "application/msword", // .doc
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
+      "application/vnd.ms-excel", // .xls
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation", // .pptx
+      "application/vnd.ms-powerpoint", // .ppt
+      "text/plain", // .txt
+      "text/markdown", // .md
+      "application/vnd.oasis.opendocument.text", // .odt
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+      "image/webp",
+      "image/svg+xml",
+      "image/bmp",
+      "application/zip",
+      "application/x-rar-compressed",
+      "application/x-7z-compressed",
+      "application/gzip",
+      "audio/mpeg", // .mp3
+      "video/mp4",
+      "video/webm",
+      "audio/wav",
+      "audio/mp4", // .m4a
+    ]
+
+    const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10 MB
+
+    // Validate file type
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      throw new Error(`File type not allowed: ${file.type || file.name.split(".").pop()}`)
+    }
+
+    // Validate file size
+    if (file.size > MAX_FILE_SIZE) {
+      throw new Error(`File size exceeds 10 MB limit (${(file.size / 1024 / 1024).toFixed(2)} MB)`)
+    }
+
+    try {
+      const formData = new FormData()
+      formData.append("file", file)
+
+      const response = await api(`/tasks/${taskId}/upload`, {
+        method: "POST",
+        body: formData,
+      })
+
+      // Update task with file info
+      setTasks((prev) =>
+        prev.map((t) =>
+          t.id === taskId
+            ? { ...t, fileUrl: response.fileUrl, fileName: response.fileName }
+            : t
+        )
+      )
+
+      return response
+    } catch (err) {
+      console.error("Failed to upload file:", err)
+      throw err
+    }
+  }, [])
+
+
   return {
     tasks,
     isLoading,
@@ -119,5 +188,6 @@ export const useTasks = () => {
     updateTask,
     deleteTask,
     toggleTask,
+    uploadFile,
   }
 }

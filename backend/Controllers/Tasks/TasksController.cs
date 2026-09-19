@@ -196,5 +196,44 @@ namespace TasksApp.Controllers
         return StatusCode(500, new { error = "File upload failed", details = ex.Message });
       }
     }
+
+    [HttpDelete("{id}/upload")]
+    public async Task<IActionResult> DeleteFile(int id)
+    {
+      var userId = GetUserId();
+      var task = await _context.Tasks
+        .FirstOrDefaultAsync(t => t.Id == id && t.AppUserId == userId);
+
+      if(task == null)
+        return NotFound(new { error = "Task not found" });
+
+      if(string.IsNullOrEmpty(task.FileUrl))
+        return BadRequest(new { error = "No file attached to this task" });
+
+      try
+      {
+        // Delete the file from disk
+        var fileName = Path.GetFileName(task.FileUrl);
+        var filePath = Path.Combine(_env.WebRootPath, "uploads", fileName);
+        
+        if(System.IO.File.Exists(filePath))
+          System.IO.File.Delete(filePath);
+
+        // Clear file info from database
+        task.FileUrl = null;
+        task.FileName = null;
+        task.UpdatedAt = DateTime.UtcNow;
+
+        _context.Tasks.Update(task);
+        await _context.SaveChangesAsync();
+
+        return Ok(new { message = "File deleted successfully" });
+      }
+      catch(Exception ex)
+      {
+        return StatusCode(500, new { error = "File deletion failed", details = ex.Message });
+      }
+    }
+
   }
 }
