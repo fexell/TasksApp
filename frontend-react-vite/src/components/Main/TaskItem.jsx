@@ -2,23 +2,18 @@ import { useState, useRef } from "react"
 import { Trash2, CheckCircle2, Circle, Loader2, Upload, FileText, Download, X } from "lucide-react"
 import { toast } from "sonner"
 import api from "@/lib/api"
-import { useTasks } from "@/hooks/useTasks"
 
-export default function TaskItem({ task: initialTask }) {
-  const { tasks, toggleTask, deleteTask, uploadFile } = useTasks()
+export default function TaskItem({ task, onDeleteTask, onToggleTask, onUploadFile }) {
   const [isToggling, setIsToggling] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
   const [showFileInput, setShowFileInput] = useState(false)
   const fileInputRef = useRef(null)
 
-  // Get the latest task from the hook's state, not the prop
-  const task = tasks.find((t) => t.id === initialTask.id) || initialTask
-
   const handleToggle = async () => {
     setIsToggling(true)
     try {
-      await toggleTask(task.id, task.isCompleted)
+      await onToggleTask(task.id, task.isCompleted)
       toast.success(task.isCompleted ? "Task marked as pending" : "Task completed!")
     } catch (err) {
       console.error("Toggle error:", err)
@@ -33,7 +28,7 @@ export default function TaskItem({ task: initialTask }) {
 
     setIsDeleting(true)
     try {
-      await deleteTask(task.id)
+      await onDeleteTask(task.id)
       toast.success("Task deleted")
     } catch (err) {
       toast.error("Failed to delete task")
@@ -48,7 +43,7 @@ export default function TaskItem({ task: initialTask }) {
 
     setIsUploading(true)
     try {
-      await uploadFile(task.id, file)
+      await onUploadFile(task.id, file)
       toast.success("File uploaded successfully")
       setShowFileInput(false)
       // Reset file input

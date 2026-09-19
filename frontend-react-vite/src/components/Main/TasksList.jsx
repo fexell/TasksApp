@@ -1,7 +1,7 @@
 import { Loader2, ListTodo } from "lucide-react"
 import TaskItem from "./TaskItem"
 
-export default function TasksList({ tasks, isLoading }) {
+export default function TasksList({ tasks, isLoading, onDeleteTask, onToggleTask, onUploadFile }) {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12">
@@ -38,7 +38,13 @@ export default function TasksList({ tasks, isLoading }) {
 
       <div className="space-y-2">
         {tasks.map((task) => (
-          <TaskItem key={task.id} task={task} />
+          <TaskItem 
+            key={task.id} 
+            task={task}
+            onDeleteTask={onDeleteTask}
+            onToggleTask={onToggleTask}
+            onUploadFile={onUploadFile}
+          />
         ))}
       </div>
     </div>

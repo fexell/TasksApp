@@ -4,7 +4,7 @@ import TasksList from "./TasksList"
 import { AlertCircle } from "lucide-react"
 
 export default function MainContent() {
-  const { tasks, isLoading, error, createTask } = useTasks()
+  const { tasks, isLoading, error, createTask, deleteTask, toggleTask, uploadFile } = useTasks()
 
   return (
     <div className="w-full max-w-2xl mx-auto px-6 py-8 space-y-8">
@@ -31,7 +31,13 @@ export default function MainContent() {
       <CreateTaskForm onTaskCreated={createTask} />
 
       {/* Tasks List */}
-      <TasksList tasks={tasks} isLoading={isLoading} />
+      <TasksList 
+        tasks={tasks} 
+        isLoading={isLoading}
+        onDeleteTask={deleteTask}
+        onToggleTask={toggleTask}
+        onUploadFile={uploadFile}
+      />
     </div>
   )
 }
