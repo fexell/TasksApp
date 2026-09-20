@@ -58,6 +58,9 @@ cd frontend-react-vite
 # Installera beroenden
 npm install
 
+# Eller (om bara npm install inte fungerar p.g.a. peer-dependencies)
+npm install --legacy-peer-deps
+
 # Skapa .env-fil
 cat > .env << 'ENVEOF'
 VITE_APP_NAME = "Tasks App"
